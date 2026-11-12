@@ -68,5 +68,16 @@ document.getElementById('installBtn').addEventListener('click', async () => {
   installEvent = null;
 });
 </script>
+
+<script>
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", function() {
+    navigator.serviceWorker.register("./sw.js")
+      .then(() => console.log("App Ready"))
+      .catch(error => console.log(error));
+  });
+}
+</script>
+
 </body>
 </html>
