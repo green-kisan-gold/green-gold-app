@@ -1,0 +1,10 @@
+
+<escape><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+<rect width="512" height="512" rx="100" fill="#063b25"/>
+<circle cx="256" cy="220" r="155" fill="none" stroke="#f5d46a" stroke-width="13"/>
+<path d="M256 350 C150 270 180 150 310 90 C345 205 320 290 256 350Z" fill="#65ad49"/>
+<path d="M256 340 C220 245 260 150 310 95" fill="none" stroke="#f5d46a" stroke-width="9"/>
+<path d="M252 335 C145 340 115 260 145 190 C225 205 265 260 252 335Z" fill="#258b45"/>
+<path d="M250 330 L150 195" stroke="#d9e9a6" stroke-width="7" fill="none"/>
+<text x="256" y="430" font-family="Arial" font-size="48" font-weight="bold" text-anchor="middle" fill="#f5d46a">GREEN GOLD</text>
+</svg></escape>
