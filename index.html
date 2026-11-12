@@ -107,38 +107,28 @@ button{
          xmlns="http://www.w3.org/2000/svg">
 
       <circle cx="100" cy="75" r="65"
-        fill="none"
-        stroke="#f5d46a"
-        stroke-width="4"/>
+        fill="none" stroke="#f5d46a" stroke-width="4"/>
 
       <path d="M100 120 C65 90 72 52 125 25
         C139 69 130 98 100 120Z"
         fill="#65ad49"/>
 
       <path d="M100 115 C85 83 101 48 125 27"
-        fill="none"
-        stroke="#f5d46a"
-        stroke-width="3"/>
+        fill="none" stroke="#f5d46a" stroke-width="3"/>
 
       <path d="M99 112 C61 113 47 86 55 60
         C83 65 101 83 99 112Z"
         fill="#258b45"/>
 
       <path d="M98 111 L59 64"
-        stroke="#d9e9a6"
-        stroke-width="2"
-        fill="none"/>
+        stroke="#d9e9a6" stroke-width="2" fill="none"/>
 
       <path d="M58 135 Q100 155 142 135"
-        fill="none"
-        stroke="#f5d46a"
-        stroke-width="4"
+        fill="none" stroke="#f5d46a" stroke-width="4"
         stroke-linecap="round"/>
 
       <path d="M75 143 Q100 155 125 143"
-        fill="none"
-        stroke="#f5d46a"
-        stroke-width="2"/>
+        fill="none" stroke="#f5d46a" stroke-width="2"/>
 
     </svg>
 
@@ -178,7 +168,7 @@ button{
 </div>
 
 <script>
-let installEvent = null;
+let deferredPrompt = null;
 
 const installBtn = document.getElementById("installBtn");
 const message = document.getElementById("message");
@@ -188,51 +178,83 @@ function isInstalled(){
          window.navigator.standalone === true;
 }
 
+// App already installed check
 if(isInstalled()){
   installBtn.style.display = "none";
   message.textContent = "GREEN GOLD APP is already installed.";
 }
 
+// Browser makes the install prompt available
 window.addEventListener("beforeinstallprompt", (event) => {
   event.preventDefault();
-  installEvent = event;
+  deferredPrompt = event;
+
   installBtn.style.display = "block";
-  message.textContent = "Tap below to install the app.";
+  message.textContent = "Tap below to install GREEN GOLD APP.";
 });
 
+// Install button action
 installBtn.addEventListener("click", async () => {
 
   if(isInstalled()){
-    message.textContent = "App is already installed.";
+    message.textContent = "GREEN GOLD APP is already installed.";
     return;
   }
 
-  if(installEvent){
-    installEvent.prompt();
-    const result = await installEvent.userChoice;
-    installEvent = null;
+  if(deferredPrompt){
 
-    if(result.outcome === "accepted"){
-      message.textContent = "Thank you! App installation started.";
-      installBtn.style.display = "none";
-    }else{
-      message.textContent = "Installation cancelled. You can try again.";
+    installBtn.disabled = true;
+    message.textContent = "Opening installation...";
+
+    try{
+      await deferredPrompt.prompt();
+
+      const result = await deferredPrompt.userChoice;
+      deferredPrompt = null;
+
+      if(result.outcome === "accepted"){
+        message.textContent = "GREEN GOLD APP installation accepted!";
+        installBtn.style.display = "none";
+      }else{
+        message.textContent = "Installation cancelled. Tap Install to try again.";
+      }
+
+    }catch(error){
+      message.textContent = "Please try installing again.";
+      console.log(error);
     }
+
+    installBtn.disabled = false;
+
   }else{
-    message.textContent =
-      "Install option is not available yet. Open Chrome menu (⋮) and choose Add to Home screen.";
+
+    const isAndroid = /Android/i.test(navigator.userAgent);
+    const isIOS = /iPhone|iPad|iPod/i.test(navigator.userAgent);
+
+    if(isAndroid){
+      message.textContent =
+        "Please open Chrome menu (⋮) and select Install app or Add to Home screen.";
+    }else if(isIOS){
+      message.textContent =
+        "Open Safari, tap Share and select Add to Home Screen.";
+    }else{
+      message.textContent =
+        "Please use Chrome menu (⋮) and select Install page as app.";
+    }
   }
 });
 
+// Installation completed
 window.addEventListener("appinstalled", () => {
   installBtn.style.display = "none";
-  message.textContent = "GREEN GOLD App installed successfully!";
+  message.textContent = "GREEN GOLD APP installed successfully!";
 });
 
+// Service worker
 if("serviceWorker" in navigator){
   window.addEventListener("load", () => {
     navigator.serviceWorker.register("./sw.js")
-      .catch(error => console.log(error));
+      .catch(error => console.log("Service Worker Error:", error));
   });
 }
 </script>
