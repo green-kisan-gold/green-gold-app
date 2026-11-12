@@ -11,69 +11,95 @@
 <style>
 *{box-sizing:border-box}
 body{
-  margin:0;
-  font-family:Arial,sans-serif;
-  background:#063b25;
-  color:white;
-  text-align:center;
-  min-height:100vh;
-  display:flex;
-  align-items:center;
-  justify-content:center;
+  margin:0;font-family:Arial,sans-serif;
+  background:#063b25;color:white;text-align:center;
+  min-height:100vh;display:flex;
+  align-items:center;justify-content:center;
 }
 .container{padding:25px;width:100%;max-width:450px}
-h1{color:#f5d46a;font-size:28px}
+h1{color:#f5d46a;font-size:29px}
 p{line-height:1.6}
 button{
-  background:#f5d46a;
-  color:#063b25;
-  border:0;
-  padding:15px 25px;
-  border-radius:8px;
-  font-size:17px;
-  font-weight:bold;
-  margin:10px;
-  cursor:pointer;
-  width:90%;
+  background:#f5d46a;color:#063b25;border:0;
+  padding:16px;border-radius:9px;font-size:17px;
+  font-weight:bold;margin:12px 0;cursor:pointer;width:100%;
 }
+#installBtn{font-size:20px;padding:19px}
+.small{font-size:13px;color:#eee}
 </style>
 </head>
-
 <body>
+
 <div class="container">
   <h1>GREEN KISAN GOLD</h1>
   <p>Welcome to GREEN KISAN GOLD</p>
-  <p>Order Organic Manure, Lime Powder and Granules.</p>
+  <p>Organic Manure | Lime Powder | Dolomite | Granules</p>
+
+  <button id="installBtn">⬇ INSTALL GREEN KISAN GOLD APP</button>
+
+  <p id="message" class="small">
+    Install the app on your mobile for easy access.
+  </p>
 
   <button onclick="location.href='https://script.google.com/macros/s/AKfycbw1PTkNa46ExD4wrnGLsOB5wnA9LnZbDcmGrP--jQwI6xV0s5EGnTHYtaG0lMLk3Tv8/exec?page=order'">
     OPEN ORDER PAGE
   </button>
-
-  <button id="installBtn" hidden>INSTALL APP</button>
 </div>
 
 <script>
-let installEvent;
+let installEvent = null;
 
-window.addEventListener('beforeinstallprompt', (e) => {
-  e.preventDefault();
-  installEvent = e;
-  document.getElementById('installBtn').hidden = false;
+const installBtn = document.getElementById("installBtn");
+const message = document.getElementById("message");
+
+function isInstalled(){
+  return window.matchMedia("(display-mode: standalone)").matches ||
+         window.navigator.standalone === true;
+}
+
+if(isInstalled()){
+  installBtn.style.display = "none";
+  message.textContent = "GREEN KISAN GOLD APP is already installed.";
+}
+
+window.addEventListener("beforeinstallprompt", (event) => {
+  event.preventDefault();
+  installEvent = event;
+  installBtn.style.display = "block";
+  message.textContent = "Tap below to install the app.";
 });
 
-document.getElementById('installBtn').addEventListener('click', async () => {
-  if (!installEvent) return;
-  installEvent.prompt();
-  await installEvent.userChoice;
-  installEvent = null;
-});
-</script>
+installBtn.addEventListener("click", async () => {
+  if(isInstalled()){
+    message.textContent = "App is already installed.";
+    return;
+  }
 
-<script>
-if ("serviceWorker" in navigator) {
-  window.addEventListener("load", function() {
+  if(installEvent){
+    installEvent.prompt();
+    const result = await installEvent.userChoice;
+    installEvent = null;
+
+    if(result.outcome === "accepted"){
+      message.textContent = "Thank you! App installation started.";
+      installBtn.style.display = "none";
+    }else{
+      message.textContent = "Installation cancelled. You can try again.";
+    }
+  }else{
+    message.textContent =
+      "Install option is not available yet. Open Chrome menu (⋮) and choose Add to Home screen.";
+  }
+});
+
+window.addEventListener("appinstalled", () => {
+  installBtn.style.display = "none";
+  message.textContent = "GREEN KISAN GOLD App installed successfully!";
+});
+
+if("serviceWorker" in navigator){
+  window.addEventListener("load", () => {
     navigator.serviceWorker.register("./sw.js")
-      .then(() => console.log("App Ready"))
       .catch(error => console.log(error));
   });
 }
