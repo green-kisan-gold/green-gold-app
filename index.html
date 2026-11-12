@@ -4,38 +4,164 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>GREEN KISAN GOLD</title>
+<title>GREEN GOLD</title>
 <meta name="theme-color" content="#063b25">
 <link rel="manifest" href="./manifest.webmanifest">
 
 <style>
 *{box-sizing:border-box}
+
 body{
-  margin:0;font-family:Arial,sans-serif;
-  background:#063b25;color:white;text-align:center;
-  min-height:100vh;display:flex;
-  align-items:center;justify-content:center;
+  margin:0;
+  font-family:Arial,sans-serif;
+  background:linear-gradient(145deg,#021f14,#063b25,#0b5133);
+  color:white;
+  text-align:center;
+  min-height:100vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
 }
-.container{padding:25px;width:100%;max-width:450px}
-h1{color:#f5d46a;font-size:29px}
+
+.container{
+  padding:25px;
+  width:100%;
+  max-width:450px;
+}
+
+.logo{
+  margin:0 auto 18px;
+  padding:15px;
+  border:2px solid #c9a646;
+  border-radius:22px;
+  background:rgba(0,0,0,0.13);
+}
+
+.logo svg{
+  display:block;
+  margin:auto;
+}
+
+.logo h1{
+  color:#f5d46a;
+  font-size:34px;
+  letter-spacing:3px;
+  margin:5px 0;
+  font-weight:900;
+}
+
+.tagline{
+  color:#f5d46a;
+  font-size:12px;
+  letter-spacing:2px;
+  font-weight:bold;
+}
+
 p{line-height:1.6}
-button{
-  background:#f5d46a;color:#063b25;border:0;
-  padding:16px;border-radius:9px;font-size:17px;
-  font-weight:bold;margin:12px 0;cursor:pointer;width:100%;
+
+.description{
+  font-size:15px;
+  margin:20px 0;
 }
-#installBtn{font-size:20px;padding:19px}
-.small{font-size:13px;color:#eee}
+
+button{
+  background:#f5d46a;
+  color:#063b25;
+  border:0;
+  padding:16px;
+  border-radius:9px;
+  font-size:17px;
+  font-weight:bold;
+  margin:12px 0;
+  cursor:pointer;
+  width:100%;
+}
+
+#installBtn{
+  font-size:19px;
+  padding:19px;
+  box-shadow:0 4px 15px rgba(0,0,0,.25);
+}
+
+.small{
+  font-size:13px;
+  color:#eee;
+}
+
+.footer{
+  color:#d7c88c;
+  font-size:12px;
+  margin-top:25px;
+}
 </style>
 </head>
+
 <body>
 
 <div class="container">
-  <h1>GREEN KISAN GOLD</h1>
-  <p>Welcome to GREEN KISAN GOLD</p>
-  <p>Organic Manure | Lime Powder | Dolomite | Granules</p>
 
-  <button id="installBtn">⬇ INSTALL GREEN KISAN GOLD APP</button>
+  <div class="logo">
+
+    <svg viewBox="0 0 200 170"
+         width="170" height="145"
+         xmlns="http://www.w3.org/2000/svg">
+
+      <circle cx="100" cy="75" r="65"
+        fill="none"
+        stroke="#f5d46a"
+        stroke-width="4"/>
+
+      <path d="M100 120 C65 90 72 52 125 25
+        C139 69 130 98 100 120Z"
+        fill="#65ad49"/>
+
+      <path d="M100 115 C85 83 101 48 125 27"
+        fill="none"
+        stroke="#f5d46a"
+        stroke-width="3"/>
+
+      <path d="M99 112 C61 113 47 86 55 60
+        C83 65 101 83 99 112Z"
+        fill="#258b45"/>
+
+      <path d="M98 111 L59 64"
+        stroke="#d9e9a6"
+        stroke-width="2"
+        fill="none"/>
+
+      <path d="M58 135 Q100 155 142 135"
+        fill="none"
+        stroke="#f5d46a"
+        stroke-width="4"
+        stroke-linecap="round"/>
+
+      <path d="M75 143 Q100 155 125 143"
+        fill="none"
+        stroke="#f5d46a"
+        stroke-width="2"/>
+
+    </svg>
+
+    <h1>GREEN GOLD</h1>
+
+    <div class="tagline">
+      AGRICULTURE • GROWTH • PROSPERITY
+    </div>
+
+  </div>
+
+  <p class="description">
+    Welcome to GREEN GOLD
+  </p>
+
+  <p>
+    Organic Manure | Lime Powder |
+    Dolomite | Granules
+  </p>
+
+  <button id="installBtn">
+    ⬇ INSTALL GREEN GOLD APP
+  </button>
 
   <p id="message" class="small">
     Install the app on your mobile for easy access.
@@ -44,6 +170,11 @@ button{
   <button onclick="location.href='https://script.google.com/macros/s/AKfycbw1PTkNa46ExD4wrnGLsOB5wnA9LnZbDcmGrP--jQwI6xV0s5EGnTHYtaG0lMLk3Tv8/exec?page=order'">
     OPEN ORDER PAGE
   </button>
+
+  <div class="footer">
+    GREEN GOLD | Agriculture Products
+  </div>
+
 </div>
 
 <script>
@@ -59,7 +190,7 @@ function isInstalled(){
 
 if(isInstalled()){
   installBtn.style.display = "none";
-  message.textContent = "GREEN KISAN GOLD APP is already installed.";
+  message.textContent = "GREEN GOLD APP is already installed.";
 }
 
 window.addEventListener("beforeinstallprompt", (event) => {
@@ -70,6 +201,7 @@ window.addEventListener("beforeinstallprompt", (event) => {
 });
 
 installBtn.addEventListener("click", async () => {
+
   if(isInstalled()){
     message.textContent = "App is already installed.";
     return;
@@ -94,7 +226,7 @@ installBtn.addEventListener("click", async () => {
 
 window.addEventListener("appinstalled", () => {
   installBtn.style.display = "none";
-  message.textContent = "GREEN KISAN GOLD App installed successfully!";
+  message.textContent = "GREEN GOLD App installed successfully!";
 });
 
 if("serviceWorker" in navigator){
