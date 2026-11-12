@@ -1,0 +1,72 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GREEN KISAN GOLD</title>
+<meta name="theme-color" content="#063b25">
+<link rel="manifest" href="./manifest.webmanifest">
+
+<style>
+*{box-sizing:border-box}
+body{
+  margin:0;
+  font-family:Arial,sans-serif;
+  background:#063b25;
+  color:white;
+  text-align:center;
+  min-height:100vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+.container{padding:25px;width:100%;max-width:450px}
+h1{color:#f5d46a;font-size:28px}
+p{line-height:1.6}
+button{
+  background:#f5d46a;
+  color:#063b25;
+  border:0;
+  padding:15px 25px;
+  border-radius:8px;
+  font-size:17px;
+  font-weight:bold;
+  margin:10px;
+  cursor:pointer;
+  width:90%;
+}
+</style>
+</head>
+
+<body>
+<div class="container">
+  <h1>GREEN KISAN GOLD</h1>
+  <p>Welcome to GREEN KISAN GOLD</p>
+  <p>Order Organic Manure, Lime Powder and Granules.</p>
+
+  <button onclick="location.href='https://script.google.com/macros/s/AKfycbw1PTkNa46ExD4wrnGLsOB5wnA9LnZbDcmGrP--jQwI6xV0s5EGnTHYtaG0lMLk3Tv8/exec?page=order'">
+    OPEN ORDER PAGE
+  </button>
+
+  <button id="installBtn" hidden>INSTALL APP</button>
+</div>
+
+<script>
+let installEvent;
+
+window.addEventListener('beforeinstallprompt', (e) => {
+  e.preventDefault();
+  installEvent = e;
+  document.getElementById('installBtn').hidden = false;
+});
+
+document.getElementById('installBtn').addEventListener('click', async () => {
+  if (!installEvent) return;
+  installEvent.prompt();
+  await installEvent.userChoice;
+  installEvent = null;
+});
+</script>
+</body>
+</html>
